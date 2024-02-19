@@ -1,0 +1,88 @@
+[gd_scene load_steps=17 format=3 uid="uid://drf128e3i63d6"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_puguc"]
+[ext_resource type="Texture2D" uid="uid://dk6bddkukwre2" path="res://grafiken/playableCharacterConcept2mithanden.png" id="2_hvd4y"]
+[ext_resource type="Texture2D" uid="uid://pwtmvjykymmp" path="res://grafiken/2d_lights_and_shadows_neutral_point_light.webp" id="3_qbnla"]
+[ext_resource type="Texture2D" uid="uid://ch7b43hedhxo7" path="res://grafiken/characterWurfAnimation/playableCharacterWurfAnimation1.png" id="4_7yr77"]
+[ext_resource type="Texture2D" uid="uid://d36xs7nlecapf" path="res://grafiken/characterWurfAnimation/playableCharacterWurfAnimation2.png" id="5_sam2y"]
+[ext_resource type="Texture2D" uid="uid://palmua7yvq74" path="res://grafiken/characterWurfAnimation/playableCharacterWurfAnimation3.png" id="6_e241r"]
+[ext_resource type="Texture2D" uid="uid://dq08fmox3cy3e" path="res://grafiken/characterWurfAnimation/playableCharacterWurfAnimation4.png" id="7_jidmk"]
+[ext_resource type="Texture2D" uid="uid://s86nf5ckiv10" path="res://grafiken/characterWurfAnimation/playableCharacterWurfAnimation5.png" id="8_0x4y1"]
+[ext_resource type="Texture2D" uid="uid://d0ee63qkpcgu8" path="res://grafiken/characterWurfAnimation/playableCharacterWurfAnimation6.png" id="9_fv6jb"]
+[ext_resource type="Texture2D" uid="uid://dtw3wcgpl0cpr" path="res://grafiken/characterWurfAnimation/playableCharacterWurfAnimation7.png" id="10_c2s4a"]
+[ext_resource type="Texture2D" uid="uid://cy8gjmpt7t5i2" path="res://grafiken/characterWurfAnimation/playableCharacterWurfAnimation8.png" id="11_64cnq"]
+[ext_resource type="Texture2D" uid="uid://bn2o6hwefevsv" path="res://grafiken/characterWurfAnimation/playableCharacterWurfAnimation9.png" id="12_on1f0"]
+[ext_resource type="Texture2D" uid="uid://crt444rnfns5s" path="res://grafiken/characterWurfAnimation/playableCharacterWurfAnimation10.png" id="13_yb277"]
+[ext_resource type="Texture2D" uid="uid://crn0asvlibgbu" path="res://grafiken/characterWurfAnimation/playableCharacterWurfAnimation11.png" id="14_o4vyk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s3ljh"]
+size = Vector2(128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v53cs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_7yr77")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_sam2y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_e241r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_jidmk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_0x4y1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_fv6jb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_c2s4a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_64cnq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_on1f0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_yb277")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_o4vyk")
+}],
+"loop": false,
+"name": &"throw",
+"speed": 16.0
+}]
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_puguc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(5, 5)
+texture = ExtResource("2_hvd4y")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_s3ljh")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+energy = 1.82
+shadow_enabled = true
+texture = ExtResource("3_qbnla")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(80, -7.62939e-06)
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_v53cs")
+animation = &"throw"
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
+[connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]

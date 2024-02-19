@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://d0nqa583tbsam"]
+
+[ext_resource type="Script" path="res://eye.gd" id="1_ssmvc"]
+[ext_resource type="Texture2D" uid="uid://syeb12wfpeqi" path="res://grafiken/augeRot.png" id="2_wxtae"]
+[ext_resource type="Texture2D" uid="uid://pwtmvjykymmp" path="res://grafiken/2d_lights_and_shadows_neutral_point_light.webp" id="3_vsj55"]
+[ext_resource type="Texture2D" uid="uid://b20jqh25fsrv4" path="res://grafiken/Lightcone.webp" id="4_4blsn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dgkqm"]
+radius = 41.4367
+
+[node name="Eye" type="Node2D"]
+script = ExtResource("1_ssmvc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(5, 5)
+texture = ExtResource("2_wxtae")
+
+[node name="EyeArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EyeArea"]
+shape = SubResource("CircleShape2D_dgkqm")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+scale = Vector2(0.75, 0.75)
+energy = 2.73
+texture = ExtResource("3_vsj55")
+
+[node name="LightCone" type="PointLight2D" parent="."]
+rotation = 1.5708
+energy = 2.73
+texture = ExtResource("4_4blsn")
+texture_scale = 3.9
+
+[connection signal="area_entered" from="EyeArea" to="." method="_on_eye_area_area_entered"]
+[connection signal="body_entered" from="EyeArea" to="." method="_on_eye_area_body_entered"]
+[connection signal="body_shape_entered" from="EyeArea" to="." method="_on_eye_area_body_shape_entered"]
