@@ -6,9 +6,12 @@ extends CharacterBody2D
 
 @onready var EyeScene = load("res://eye.tscn")
 @onready var AnimSprite = $"AnimatedSprite2D"
+@onready var AttaSprite = $"AnimatedSprite2D2"
 var eyeNode : Node2D
 var eyeInCollider : bool = false
 var reverseDir 
+var attackReady : bool = true
+var isAttacking = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -18,7 +21,7 @@ func _ready():
 func _process(delta):
 	## the movement controls
 	reverseDir = position
-	if hasEye:
+	if hasEye and not isAttacking:
 		if Input.is_key_pressed(KEY_W):
 			move_and_collide(Vector2(0,-1)*speed)
 		if Input.is_key_pressed(KEY_S):
@@ -35,11 +38,20 @@ func _unhandled_input(event):
 		if event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 			if hasEye:
 				AnimSprite.play()
+				AttaSprite.visible = false
 			else:
 				if eyeInCollider :
 					eyeNode.free()
 					hasEye = true
 					AnimSprite.frame = 0
+		elif event.pressed and event.button_index == MOUSE_BUTTON_LEFT and attackReady:
+			if hasEye:
+				AttaSprite.visible = true
+				attackReady = false
+				$Timer.start()
+				$Timer2.start()
+				isAttacking = true
+				AttaSprite.play()
 
 
 #throw an eye on to the position of a Vector 2D
@@ -85,4 +97,14 @@ func _on_animated_sprite_2d_frame_changed():
 
 func _on_area_2d_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
 	print("2afefa")
+	pass # Replace with function body.
+
+
+func _on_timer_timeout():
+	attackReady = true
+	pass # Replace with function body.
+
+
+func _on_timer_2_timeout():
+	isAttacking = false
 	pass # Replace with function body.
