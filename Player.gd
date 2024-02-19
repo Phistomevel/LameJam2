@@ -48,7 +48,7 @@ func throwEye(target : Vector2):
 	hasEye = false
 	var newEye = EyeScene.instantiate()
 	add_sibling(newEye)
-	newEye.global_position = self.global_position + Vector2(50,0).rotated(self.rotation)
+	newEye.global_position = self.global_position + Vector2(100,0).rotated(self.rotation)
 	newEye.throwTarget = target
 	newEye.retractTarget = self
 	newEye.rotation = self.rotation
