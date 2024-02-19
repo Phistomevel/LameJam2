@@ -1,5 +1,5 @@
 @icon("res://grafiken/playableCharacterConcept2mithanden.png")
-extends Node2D
+extends CharacterBody2D
 @export var speed : int = 4
 @export var hasEye = true
 
@@ -8,7 +8,7 @@ extends Node2D
 @onready var AnimSprite = $"AnimatedSprite2D"
 var eyeNode : Node2D
 var eyeInCollider : bool = false
-
+var reverseDir 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -17,16 +17,16 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	## the movement controls
-	var reverseDir = Vector2(0,0)
+	reverseDir = position
 	if hasEye:
 		if Input.is_key_pressed(KEY_W):
-			position += Vector2( 0,-1) * speed
+			move_and_collide(Vector2(0,-1)*speed)
 		if Input.is_key_pressed(KEY_S):
-			position += Vector2( 0, 1) * speed
+			move_and_collide(Vector2(0, 1)*speed)
 		if Input.is_key_pressed(KEY_A):
-			position += Vector2(-1, 0) * speed
+			move_and_collide(Vector2(-1, 0)*speed)
 		if Input.is_key_pressed(KEY_D):
-			position += Vector2( 1, 0) * speed
+			move_and_collide(Vector2(1,0)*speed)
 		rotation = (global_position-get_global_mouse_position()).angle()+PI
 	
 
@@ -80,4 +80,9 @@ func _on_area_2d_area_exited(area):
 func _on_animated_sprite_2d_frame_changed():
 	if AnimSprite.frame ==10:
 		throwEye(get_global_mouse_position())
+	pass # Replace with function body.
+
+
+func _on_area_2d_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
+	print("2afefa")
 	pass # Replace with function body.
